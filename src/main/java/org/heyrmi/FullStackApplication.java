@@ -1,9 +1,6 @@
 package org.heyrmi;
 
-import org.heyrmi.domain.Car;
-import org.heyrmi.domain.CarRepository;
-import org.heyrmi.domain.Owner;
-import org.heyrmi.domain.OwnerRepository;
+import org.heyrmi.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +20,9 @@ public class FullStackApplication implements CommandLineRunner {
 
 	@Autowired
 	private OwnerRepository ownerRepository;
+
+	@Autowired
+	private UserRepository userRepository;
 
 
 	public static void main(String[] args) {
@@ -49,5 +49,10 @@ public class FullStackApplication implements CommandLineRunner {
 		for(Owner owner: ownerRepository.findAll()) {
 			logger.info(owner.getFirstname() + " " + owner.getLastname());
 		}
+
+		userRepository.save(new User("user",
+				"$2a$10$NVM0n8ElaRgg7zWO1CxUdei7vWoPg91Lz2aYavh9.f9q0e4bRadue","USER"));
+		userRepository.save(new User("admin",
+				"$2a$10$8cjz47bjbR4Mn8GMg9IZx.vyjhLXR/SKKMSZ9.mP9vpMu0ssKi8GW", "ADMIN"));
 	}
 }
