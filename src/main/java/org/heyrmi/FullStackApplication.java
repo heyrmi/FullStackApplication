@@ -10,11 +10,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.Arrays;
 
-
 @SpringBootApplication
 public class FullStackApplication implements CommandLineRunner {
-	private static final Logger logger =
-			LoggerFactory.getLogger(FullStackApplication.class);
+	private static final Logger logger = LoggerFactory.getLogger(FullStackApplication.class);
 
 	@Autowired
 	private CarRepository repository;
@@ -29,11 +27,13 @@ public class FullStackApplication implements CommandLineRunner {
 		SpringApplication.run(FullStackApplication.class, args);
 	}
 
+	// To create tables before program execution
+	// This also destroys tables once program exits
 	@Override
 	public void run(String... args) throws Exception {
 		// Add owner objects and save these to db
-		Owner owner1 = new Owner("John" , "Johnson");
-		Owner owner2 = new  Owner("Mary" , "Robinson");
+		Owner owner1 = new Owner("John", "Johnson");
+		Owner owner2 = new Owner("Mary", "Robinson");
 		orepository.saveAll(Arrays.asList(owner1, owner2));
 		for (Owner owner : orepository.findAll()) {
 			logger.info(owner.getFirstname() + " " + owner.getLastname());
