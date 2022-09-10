@@ -4,32 +4,37 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Getter
 @Setter
 @Entity
+@Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, updatable = false)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(nullable=false, updatable=false)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable=false, unique=true)
     private String username;
 
-    @Column(nullable = false)
+    @Column(nullable=false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable=false)
     private String role;
 
-    // To allow external instantiation
-    public User() {}
+    public User() {
+    }
 
-    // Constructor
-    public User(String username, String password, String role){
+    public User(String username, String password, String role) {
+        super();
         this.username = username;
         this.password = password;
         this.role = role;
     }
+
 }
+
