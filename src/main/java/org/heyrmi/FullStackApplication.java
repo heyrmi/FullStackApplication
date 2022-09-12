@@ -46,7 +46,9 @@ public class FullStackApplication implements CommandLineRunner {
 				"SSJ-3002", 2019, 29000, owner2);
 		Car car3 = new Car("Toyota", "Prius", "Silver",
 				"KKO-0212", 2020, 39000, owner2);
-		repository.saveAll(Arrays.asList(car1, car2, car3));
+		Car car4 = new Car("Audi", "A4", "Black",
+				"GJJ-1245", 2021, 99000, owner1);
+		repository.saveAll(Arrays.asList(car1, car2, car3, car4));
 
 		for (Car car : repository.findAll()) {
 			logger.info(car.getBrand() + " " + car.getModel());
