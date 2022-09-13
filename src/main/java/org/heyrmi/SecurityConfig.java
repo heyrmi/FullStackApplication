@@ -36,20 +36,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // Added this is just to test the frontend integration
         // Permitting every request
-        http.csrf().disable().cors().and().authorizeRequests().anyRequest().permitAll();
+        // http.csrf().disable().cors().and().authorizeRequests().anyRequest().permitAll();
 
-        /*
-         * http.csrf().disable().cors().and()
-         * .sessionManagement()
-         * .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-         * .authorizeRequests()
-         * .antMatchers(HttpMethod.POST, "/login").permitAll()
-         * .anyRequest().authenticated().and()
-         * .exceptionHandling()
-         * .authenticationEntryPoint(exceptionHandler).and()
-         * .addFilterBefore(authenticationFilter,
-         * UsernamePasswordAuthenticationFilter.class);
-         */
+        http.csrf().disable().cors().and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/login").permitAll()
+                .anyRequest().authenticated().and()
+                .exceptionHandling()
+                .authenticationEntryPoint(exceptionHandler).and()
+                .addFilterBefore(authenticationFilter,
+                        UsernamePasswordAuthenticationFilter.class);
+
     }
 
     @Bean
