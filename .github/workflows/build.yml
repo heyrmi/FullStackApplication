@@ -41,4 +41,4 @@ jobs:
           cache: "maven"
 
       - name: Maven clean package
-        run: mvn clean package -Pbuild-frontend --no-transfer-progress
+        run: mvn clean package -Pbuild-frontend -DskipTests -e -X
