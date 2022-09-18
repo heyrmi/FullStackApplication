@@ -16,9 +16,6 @@
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
-  "overrides": {
-    "@popperjs/core": "2.11.4"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
