@@ -11,10 +11,10 @@ on:
 
 env:
   POSTGRESQL_VERSION: 14.5
-  POSTGRESQL_DB: "cardb"
-  POSTGRESQL_USER: "rahul"
-  POSTGRESQL_PASSWORD: "root"
-  JAVA_VERSION: "17"
+  POSTGRESQL_DB: cardb
+  POSTGRESQL_USER: postgres
+  POSTGRESQL_PASSWORD: password
+  JAVA_VERSION: 17
 
 jobs:
   build:
@@ -26,11 +26,12 @@ jobs:
           POSTGRES_DB: ${{ env.POSTGRESQL_DB }}
           POSTGRES_USER: ${{ env.POSTGRESQL_USER }}
           POSTGRES_PASSWORD: ${{ env.POSTGRESQL_PASSWORD }}
-        ports: ["5432:5432"]
+        ports:
+          - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
-      - name: Checkout
+      - name: Get Code
         uses: actions/checkout@v3
 
       - name: Java Setup
@@ -41,4 +42,5 @@ jobs:
           cache: "maven"
 
       - name: Maven clean package
-        run: mvn clean package -Pbuild-frontend -DskipTests -e -X
+        run: |
+          ./mvnw clean package -Pbuild-frontend --no-transfer-progress
