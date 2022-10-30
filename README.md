@@ -1,4 +1,5 @@
 [![CI](https://github.com/heyrmi/FullStackApplication/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/heyrmi/FullStackApplication/actions/workflows/build.yml)
+[![CD](https://github.com/heyrmi/FullStackApplication/actions/workflows/deploy.yml/badge.svg?branch=master)](https://github.com/heyrmi/FullStackApplication/actions/workflows/deploy.yml)
 
 ## FullStackApplication
 

@@ -1,0 +1,90 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - "master"
+
+  workflow_dispatch:
+
+env:
+  #PostgreSQL Service Container
+  POSTGRESQL_VERSION: 14.5
+  POSTGRESQL_DB: cardb
+  POSTGRESQL_USER: postgres
+  POSTGRESQL_PASSWORD: password
+
+  #Java Version
+  JAVA_VERSION: 17
+
+  #DockerHub
+  DOCKER_HUB_USERNAME: heyrmi
+
+  #TODO: AWS
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:14.5
+        env:
+          POSTGRES_DB: ${{ env.POSTGRESQL_DB }}
+          POSTGRES_USER: ${{ env.POSTGRESQL_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRESQL_PASSWORD }}
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v3
+
+      - name: Java Setup
+        uses: actions/setup-java@v3
+        with:
+          distribution: "temurin"
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: "maven"
+
+      - name: Test
+        run: |
+          ./mvnw clean test --no-transfer-progress
+
+  build:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+
+      - name: Java Setup
+        uses: actions/setup-java@v3
+        with:
+          distribution: "temurin"
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: "maven"
+
+      - name: Build Number
+        id: build-number
+        run: echo "::set-output name=BUILD_NUMBER::$(date '+%d.%m.%Y.%-H.%-M')"
+
+      - name: Docker Login
+        uses: docker/login-action@v2
+        with:
+          username: ${{ env.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
+      - name: Maven Clean package & Push to DockerHub
+        run: |
+          ./mvnw clean package --no-transfer-progress -DskipTests=true \
+          -P build-frontend \
+          -P jib-push-to-dockerhub \
+          -Dapp.image.tag=${{ steps.build-number.outputs.BUILD_NUMBER }}
+
+  deploy:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deployment
+        run: echo "TODO Deployment"
