@@ -67,7 +67,7 @@ jobs:
 
       - name: Build Number
         id: build-number
-        run: echo "::set-output name=BUILD_NUMBER::$(date '+%d.%m.%Y.%-H.%-M')"
+        run: echo "BUILD_NUMBER=$(date '+%d.%m.%Y.%-H.%-M')" >> $GITHUB_OUTPUT
 
       - name: Docker Login
         uses: docker/login-action@v2
