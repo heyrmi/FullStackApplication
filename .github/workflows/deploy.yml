@@ -82,6 +82,13 @@ jobs:
           -P jib-push-to-dockerhub \
           -Dapp.image.tag=${{ steps.build-number.outputs.BUILD_NUMBER }}
 
+      - name: Update App Version
+        run: |
+          BUILD_NO=${{steps.build-number.outputs.BUILD_NUMBER}}
+          echo -e "Current docker/docker-compose.yml: \n$(cat docker/docker-compose.yml)"
+          sed -i -E 's_(heyrmi/full-stack-application:)([^"]*)_\1'${BUILD_NO}'_' docker/docker-compose.yml
+          echo -e "Modified docker/docker-compose.yml: \n$(cat docker/docker-compose.yml)"
+
   deploy:
     needs: [build]
     runs-on: ubuntu-latest
