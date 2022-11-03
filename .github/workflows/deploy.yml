@@ -88,6 +88,11 @@ jobs:
           echo -e "Current docker/docker-compose.yml: \n$(cat docker/docker-compose.yml)"
           sed -i -E 's_(heyrmi/full-stack-application:)([^"]*)_\1'${BUILD_NO}'_' docker/docker-compose.yml
           echo -e "Modified docker/docker-compose.yml: \n$(cat docker/docker-compose.yml)"
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add docker/docker-compose.yml
+          git commit -m "new app version: ${BUILD_NO}"
+          git push
 
   deploy:
     needs: [build]
@@ -95,3 +100,7 @@ jobs:
     steps:
       - name: Deployment
         run: echo "TODO Deployment"
+
+      - name: Image version
+        run: |
+          echo -e "Modified docker/docker-compose.yml: \n$(cat docker/docker-compose.yml)"
