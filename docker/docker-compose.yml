@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   backend:
-    image: "heyrmi/full-stack-application:03.11.2022.18.55"
+    image: "heyrmi/full-stack-application:04.11.2022.4.38"
     ports:
       - "80:8080"
     restart: "always"
