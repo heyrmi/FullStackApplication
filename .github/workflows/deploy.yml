@@ -82,25 +82,51 @@ jobs:
           -P jib-push-to-dockerhub \
           -Dapp.image.tag=${{ steps.build-number.outputs.BUILD_NUMBER }}
 
+      - name: Write build-number
+        shell: bash
+        run: |
+          expr ${{ steps.build-number.outputs.BUILD_NUMBER }} > build-number.txt
+
+      - name: Upload build-number
+        uses: actions/upload-artifact@v3
+        with:
+          name: Build-Number
+          path: build-number.txt
+
+  update:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+
+      - name: Download build-number
+        uses: actions/download-artifact@v3
+        with:
+          name: Build-Number
+
       - name: Update App Version
         run: |
-          BUILD_NO=${{steps.build-number.outputs.BUILD_NUMBER}}
+          BUILD_NO=`cat build-number.txt`
           echo -e "Current docker/docker-compose.yml: \n$(cat docker/docker-compose.yml)"
           sed -i -E 's_(heyrmi/full-stack-application:)([^"]*)_\1'${BUILD_NO}'_' docker/docker-compose.yml
           echo -e "Modified docker/docker-compose.yml: \n$(cat docker/docker-compose.yml)"
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add docker/docker-compose.yml
-          git commit -m "new app version: ${BUILD_NO}"
+          git commit -m "Updated new app version: ${BUILD_NO}"
           git push
 
   deploy:
-    needs: [build]
+    needs: [update]
     runs-on: ubuntu-latest
     steps:
+      - name: Get code
+        uses: actions/checkout@v3
+
       - name: Deployment
         run: echo "TODO Deployment"
 
       - name: Image version
         run: |
-          echo -e "Modified docker/docker-compose.yml: \n$(cat docker/docker-compose.yml)"
+          echo -e "Latest docker/docker-compose.yml: \n$(cat docker/docker-compose.yml)"
