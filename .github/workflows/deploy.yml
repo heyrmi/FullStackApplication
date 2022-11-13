@@ -126,6 +126,10 @@ jobs:
 
       - name: Deployment
         run: echo "TODO Deployment"
+        
+      - name: Take latest pull
+        run: |
+          git pull 
 
       - name: Image version
         run: |
