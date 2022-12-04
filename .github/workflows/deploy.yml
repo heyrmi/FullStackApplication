@@ -51,6 +51,31 @@ jobs:
         run: |
           ./mvnw clean test --no-transfer-progress
 
+  native-build:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+
+      - uses: graalvm/setup-graalvm@v1
+        with:
+          version: "22.3.0"
+          java-version: ${{ env.JAVA_VERSION }}
+          components: "native-image"
+          github-token: ${{ secrets.PAT }}
+
+      - name: Native-image
+        run: |
+          ./mvnw clean package --no-transfer-progress -DskipTests=true \
+          -P build-frontend
+
+      - name: Upload Image
+        uses: actions/upload-artifact@v2
+        with:
+          name: Native-Image
+          path: target/*.jar
+
   build:
     needs: [test]
     runs-on: ubuntu-latest
@@ -126,10 +151,10 @@ jobs:
 
       - name: Deployment
         run: echo "TODO Deployment"
-        
+
       - name: Take latest pull
         run: |
-          git pull 
+          git pull
 
       - name: Image version
         run: |
