@@ -1,11 +1,9 @@
 package org.heyrmi.domain;
 
-
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Getter
@@ -18,10 +16,11 @@ public class Car {
     private int year, price;
 
     // To allow external instantiation
-    public Car() {}
+    public Car() {
+    }
 
     public Car(String brand, String model, String color,
-               String registerNumber, int year, int price, Owner owner) {
+            String registerNumber, int year, int price, Owner owner) {
         super();
         this.brand = brand;
         this.model = model;

@@ -1,18 +1,16 @@
 package org.heyrmi.domain;
 
-
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Owner {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,13 +18,12 @@ public class Owner {
     private String firstname, lastname;
 
     // To allow external instantiation
-    public Owner() {}
+    public Owner() {
+    }
 
     @JsonIgnore
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="owner")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<Car> cars;
-
-
 
     public List<Car> getCars() {
         return cars;
