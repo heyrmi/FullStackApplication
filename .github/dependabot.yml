@@ -10,7 +10,7 @@ updates:
       time: "05:00"
       timezone: "Asia/Calcutta"
     labels:
-      - "CI/CD"
+      - "github_actions"
     commit-message:
       prefix: ci
 
