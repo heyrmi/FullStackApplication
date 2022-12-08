@@ -8,15 +8,15 @@ This project was made to learn end to end application development.
 
 ### Improvements in future
 
-- Deploy it on Elastic Beanstalk
+- [ ] Deploy it on Elastic Beanstalk
 
 ### Implemented
 
-- CRUD
-- Auth (JWT)
-- Make docker container of the application's jar
-- Add CI/CD github workflows for the same
-- GraalVM: Native Image
+- [x] CRUD
+- [x] Auth (JWT)
+- [x] Make docker container of the application's jar
+- [x] Add CI/CD github workflows for the same
+- [x] GraalVM: Native Image
 
 <br>
 
