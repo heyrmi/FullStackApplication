@@ -6,6 +6,8 @@ on:
       - "master"
 
   workflow_dispatch:
+  
+  #TODO: Add maven release management in future updates
 
 env:
   #PostgreSQL Service Container
