@@ -8,7 +8,7 @@ This project was made to learn end to end application development.
 
 ### Improvements in future
 
-- [ ] Deploy it on Elastic Beanstalk
+- [ ] Graal: Native Executable
 
 ### Implemented
 
@@ -17,6 +17,7 @@ This project was made to learn end to end application development.
 - [x] Make docker container of the application's jar
 - [x] Add CI/CD github workflows for the same
 - [x] GraalVM: Native Image
+- [x] Deploy it on Elastic Beanstalk
 
 <br>
 
